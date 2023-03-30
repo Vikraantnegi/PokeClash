@@ -1,27 +1,34 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useEffect} from 'react';
-import {View, Image, StyleSheet, Dimensions} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import {ScreenParamList} from '../../Navigation/AppNavigator';
+import {useSelector} from 'react-redux';
+import {UserName} from '../../redux/reducers/authReducer';
 
-const windowWidth = Dimensions.get('window').width;
+const SplashScreenImage = require('../../assets/splash-screen.jpg');
+const windowWidth = Dimensions.get('window')?.width;
 
 const SplashScreen = ({
   navigation,
 }: StackScreenProps<ScreenParamList, 'Splash'>) => {
+  const username = useSelector(UserName);
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('Home');
+      username ? navigation.replace('Home') : navigation.replace('Auth');
     }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Image
+    <View style={[styles.container]}>
+      <Animatable.Image
+        delay={500}
+        animation="bounceIn"
+        source={SplashScreenImage}
         style={styles.logo}
-        source={require('../../assets/splash-screen.jpg')}
       />
     </View>
   );
