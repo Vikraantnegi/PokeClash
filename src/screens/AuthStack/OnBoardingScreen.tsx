@@ -1,26 +1,34 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Fonts} from '../../HelperStyles';
 import OnBoardCard from '../../components/OnBoarding/onBoardCard';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
+import {Pressable} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
 export const OnBoardingScreen = ({
   navigation,
 }: StackScreenProps<AuthParamList, 'OnBoarding'>) => {
   const [screenPosition, setScreenPosition] = useState<number>(1);
 
-  const onSwipeRight = () => {
-    if (screenPosition !== 3) {
-      let currPosition = screenPosition;
-      setScreenPosition(currPosition++);
+  const toPreviousSlide = () => {
+    if (screenPosition > 1) {
+      let currPosition = screenPosition - 1;
+      setScreenPosition(currPosition);
     }
   };
-  const onSwipeleft = () => {
-    if (screenPosition !== 1) {
-      let currPosition = screenPosition;
-      setScreenPosition(currPosition--);
+
+  const toNextSlide = () => {
+    if (screenPosition < 3) {
+      let currPosition = screenPosition + 1;
+      setScreenPosition(currPosition);
     }
+  };
+
+  const changePosition = (position: number) => {
+    setScreenPosition(position);
   };
 
   const swipeGestureConfig = {
@@ -30,9 +38,11 @@ export const OnBoardingScreen = ({
 
   return (
     <View style={styles.container}>
-      <Text onPress={() => navigation.navigate('Home')} style={styles.Skip}>
-        Skip
-      </Text>
+      {screenPosition < 3 && (
+        <Text onPress={() => navigation.navigate('Home')} style={styles.Skip}>
+          Skip
+        </Text>
+      )}
       <View style={styles.header}>
         <Text style={styles.headingText}>Welcome to</Text>
         <Text style={styles.subHeadingText}>Pokédex</Text>
@@ -40,11 +50,56 @@ export const OnBoardingScreen = ({
       <View style={styles.mainContent}>
         <OnBoardCard
           position={screenPosition}
-          onLeftSwipe={onSwipeRight}
-          onRightSwipe={onSwipeleft}
+          onLeftSwipe={toNextSlide}
+          onRightSwipe={toPreviousSlide}
           config={swipeGestureConfig}
         />
       </View>
+      <View style={styles.pager}>
+        {[1, 2, 3].map(indice => (
+          <TouchableOpacity onPress={() => changePosition(indice)}>
+            <View
+              style={[
+                styles.marker,
+                screenPosition === indice
+                  ? {backgroundColor: '#fe0000'}
+                  : {backgroundColor: '#e2e2e2'},
+              ]}
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
+      {screenPosition === 1 ? (
+        <Pressable style={styles.Next} onPress={() => toNextSlide()}>
+          <Icon name="arrow-right-circle" size={40} color="#fe0000" />
+        </Pressable>
+      ) : screenPosition === 2 ? (
+        <View style={styles.Actions}>
+          <Pressable onPress={() => toPreviousSlide()}>
+            <Icon name="arrow-left-circle" size={40} color="#fe0000" />
+          </Pressable>
+          <Pressable onPress={() => toNextSlide()}>
+            <Icon name="arrow-right-circle" size={40} color="#fe0000" />
+          </Pressable>
+        </View>
+      ) : (
+        <View style={styles.ActionButtons}>
+          <Pressable
+            style={styles.Button}
+            onPress={() => navigation.navigate('SignUp')}>
+            <Text style={styles.ButtonText}>Create Account</Text>
+          </Pressable>
+          <Text style={styles.ActionText}>
+            Already have an account?
+            <Text
+              onPress={() => navigation.navigate('Login')}
+              style={styles.Login}>
+              {' '}
+              Login!
+            </Text>
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -84,7 +139,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: Fonts.fontMedium,
   },
-  Indices: {
+  pager: {
     marginVertical: 20,
     marginHorizontal: 'auto',
     display: 'flex',
@@ -92,7 +147,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  Index: {
+  marker: {
     height: 10,
     width: 10,
     backgroundColor: '#E2E2E2',

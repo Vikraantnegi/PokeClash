@@ -13,8 +13,9 @@ export type ScreenParamList = {
 
 export type AuthParamList = {
   OnBoarding: undefined;
+  SignUp: undefined;
+  Login: undefined;
   Home: undefined;
-  Auth: undefined;
 };
 
 const RootStack = createStackNavigator<ScreenParamList>();
