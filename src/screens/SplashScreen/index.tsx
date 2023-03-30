@@ -17,7 +17,7 @@ const SplashScreen = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       username ? navigation.replace('Home') : navigation.replace('Auth');
-    }, 3000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
