@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Fonts} from '../../HelperStyles';
@@ -39,37 +38,35 @@ export const OnBoardingScreen = ({
   return (
     <View style={styles.container}>
       {screenPosition < 3 && (
-        <Text onPress={() => navigation.navigate('Home')} style={styles.Skip}>
+        <Text
+          onPress={() => navigation.navigate('Home')}
+          style={styles.skipCTA}>
           Skip
         </Text>
       )}
-      <View style={styles.header}>
-        <Text style={styles.headingText}>Welcome to</Text>
-        <Text style={styles.subHeadingText}>Pokédex</Text>
-      </View>
       <View style={styles.mainContent}>
-        <OnBoardCard
-          position={screenPosition}
-          onLeftSwipe={toNextSlide}
-          onRightSwipe={toPreviousSlide}
-          config={swipeGestureConfig}
-        />
+        <View style={styles.bullets}>
+          {[1, 2, 3].map((indice, index) => (
+            <TouchableOpacity key={index}>
+              <View
+                style={[
+                  styles.marker,
+                  screenPosition === indice ? styles.selectedMarker : null,
+                ]}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
+        <View style={styles.card}>
+          <OnBoardCard
+            position={screenPosition}
+            onLeftSwipe={toNextSlide}
+            onRightSwipe={toPreviousSlide}
+            config={swipeGestureConfig}
+          />
+        </View>
       </View>
-      <View style={styles.pager}>
-        {[1, 2, 3].map(indice => (
-          <TouchableOpacity onPress={() => changePosition(indice)}>
-            <View
-              style={[
-                styles.marker,
-                screenPosition === indice
-                  ? {backgroundColor: '#fe0000'}
-                  : {backgroundColor: '#e2e2e2'},
-              ]}
-            />
-          </TouchableOpacity>
-        ))}
-      </View>
-      {screenPosition === 1 ? (
+      {/* {screenPosition === 1 ? (
         <Pressable style={styles.Next} onPress={() => toNextSlide()}>
           <Icon name="arrow-right-circle" size={40} color="#fe0000" />
         </Pressable>
@@ -99,7 +96,7 @@ export const OnBoardingScreen = ({
             </Text>
           </Text>
         </View>
-      )}
+      )} */}
     </View>
   );
 };
@@ -108,53 +105,47 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
-    backgroundColor: 'white',
     paddingHorizontal: 20,
     paddingVertical: 40,
+    backgroundColor: '#d53f27',
   },
-  header: {
-    paddingTop: 20,
-  },
-  headingText: {
-    fontSize: 20,
-    color: '#00041f',
-    fontFamily: Fonts.fontLight,
-  },
-  subHeadingText: {
-    fontSize: 40,
-    color: '#fe0000',
-    fontFamily: Fonts.fontBold,
-    marginTop: -10,
-  },
-  mainContent: {
-    marginTop: 30,
-    marginHorizontal: 30,
-    display: 'flex',
-    height: 400,
-  },
-  Skip: {
+  skipCTA: {
     position: 'absolute',
     top: 20,
     right: 20,
-    fontSize: 14,
-    fontFamily: Fonts.fontMedium,
+    fontSize: 16,
+    fontFamily: Fonts.fontBold,
+    color: '#FFF',
   },
-  pager: {
-    marginVertical: 20,
-    marginHorizontal: 'auto',
+  mainContent: {
     display: 'flex',
+    flex: 1,
     flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 16,
+    marginTop: 30,
+  },
+  bullets: {
+    display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    gap: 12,
+    marginLeft: 4,
   },
   marker: {
     height: 10,
     width: 10,
-    backgroundColor: '#E2E2E2',
+    backgroundColor: '#FFF',
+    opacity: 0.4,
     borderWidth: 0,
     borderRadius: 5,
-    marginHorizontal: 5,
-    elevation: 3,
+  },
+  selectedMarker: {
+    height: 40,
+    opacity: 1,
+  },
+  card: {
+    flex: 1,
   },
   Next: {
     alignSelf: 'flex-end',

@@ -27,19 +27,19 @@ interface HashMap {
 const OnBoardCard = ({onLeftSwipe, onRightSwipe, config, position}: OnBoardCardProps) => {
     const screenMap: HashMap = {
         1: {
-            heading: 'Pokédex',
-            subHeading: 'Pokédex was invented by Professor Oak.',
-            image: pokepik,
+            heading: 'Explore Pokemons',
+            subHeading: 'Discover new and rare species of Pokemons and learn about their strengths, weaknesses and special abilities.',
+            // image: pokepik,
         },
         2: {
-            heading: 'Pokémon Fandom',
-            subHeading: 'Find every single detail of \n any pokémon you want.',
-            image: charizard,
+            heading: 'Search Pokemons',
+            subHeading: 'Find the Pokemons you want quickly and easily usng our powerful search feature with different filters.',
+            // image: charizard,
         },
         3: {
-            heading: 'Set Favorites',
-            subHeading: 'Create a separate section for \n your favorite pokémon.',
-            image: list,
+            heading: 'Manage Favorites',
+            subHeading: 'Keep track of your favorite Pokemons and access them easily whenever you want.',
+            // image: list,
         },
     };
     const { heading, subHeading, image } = screenMap[position];
@@ -49,57 +49,51 @@ const OnBoardCard = ({onLeftSwipe, onRightSwipe, config, position}: OnBoardCardP
             onSwipeLeft={() => onLeftSwipe()}
             onSwipeRight={() => onRightSwipe()}
             config={config}
-            style={styles.gesture}
+            style={cardStyles.gesture}
         >
-            <View style={styles.container}>
-                <Image source={image} style={styles.image} />
-                <View style={styles.content}>
-                    <Text style={styles.heading}>{heading}</Text>
-                    <Text style={styles.subHeading}>{subHeading}</Text>
+            <View style={cardStyles.container}>
+                <View style={cardStyles.content}>
+                    { heading && <Text style={cardStyles.heading}>{heading}</Text> }
+                    { subHeading && <Text style={cardStyles.subHeading}>{subHeading}</Text> }
                 </View>
+                { image && <Image source={image} style={cardStyles.image} /> }
             </View>
         </GestureRecognizer>
     );
 };
 
-const styles = StyleSheet.create({
+const cardStyles = StyleSheet.create({
     gesture: {
         flex: 1,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      container: {
+    },
+    container: {
+        display: 'flex',
+        flex: 1,
+        width: '95%',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    content: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        gap: 8,
+    },
+    image: {
         width: '100%',
-      },
-      image: {
-        width: 360,
         resizeMode: 'contain',
-      },
-      content: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: -20,
-        width: '100%',
-      },
-      heading: {
-        fontSize: 28,
+    },
+    heading: {
         fontFamily: Fonts.fontBold,
-        color: '#17171B',
-      },
-      subHeading: {
-        color: '#747476',
-        marginTop: -10,
-        fontSize: 18,
+        fontSize: 32,
+        lineHeight:  36,
+        color: '#FFF',
+    },
+    subHeading: {
         fontFamily: Fonts.fontRegular,
-        textAlign: 'center',
-      },
+        fontSize: 18,
+        lineHeight:  24,
+        color: '#FFF',
+    },
 });
 
 export default OnBoardCard;
