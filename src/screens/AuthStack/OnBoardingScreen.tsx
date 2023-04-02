@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Fonts} from '../../HelperStyles';
@@ -26,14 +27,22 @@ export const OnBoardingScreen = ({
     }
   };
 
-  const changePosition = (position: number) => {
-    setScreenPosition(position);
-  };
-
   const swipeGestureConfig = {
     velocityThreshold: 0.3,
     directionalOffsetThreshold: 80,
   };
+
+  const NextCTA = () => (
+    <Pressable style={styles.next} onPress={() => toNextSlide()}>
+      <Icon name="arrow-right-circle" size={60} color="#fff" />
+    </Pressable>
+  );
+
+  const PrevCTA = () => (
+    <Pressable onPress={() => toPreviousSlide()}>
+      <Icon name="arrow-left-circle" size={60} color="#fff" />
+    </Pressable>
+  );
 
   return (
     <View style={styles.container}>
@@ -66,37 +75,31 @@ export const OnBoardingScreen = ({
           />
         </View>
       </View>
-      {/* {screenPosition === 1 ? (
-        <Pressable style={styles.Next} onPress={() => toNextSlide()}>
-          <Icon name="arrow-right-circle" size={40} color="#fe0000" />
-        </Pressable>
+      {screenPosition === 1 ? (
+        <NextCTA />
       ) : screenPosition === 2 ? (
-        <View style={styles.Actions}>
-          <Pressable onPress={() => toPreviousSlide()}>
-            <Icon name="arrow-left-circle" size={40} color="#fe0000" />
-          </Pressable>
-          <Pressable onPress={() => toNextSlide()}>
-            <Icon name="arrow-right-circle" size={40} color="#fe0000" />
-          </Pressable>
+        <View style={styles.actionCTAs}>
+          <PrevCTA />
+          <NextCTA />
         </View>
       ) : (
-        <View style={styles.ActionButtons}>
+        <View style={[styles.actionCTAs, styles.flexCol]}>
           <Pressable
-            style={styles.Button}
+            style={styles.createCTA}
             onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.ButtonText}>Create Account</Text>
+            <Text style={styles.createCTAText}>Create Account</Text>
           </Pressable>
-          <Text style={styles.ActionText}>
+          <Text style={styles.loginText}>
             Already have an account?
             <Text
               onPress={() => navigation.navigate('Login')}
-              style={styles.Login}>
+              style={styles.loginCTA}>
               {' '}
               Login!
             </Text>
           </Text>
         </View>
-      )} */}
+      )}
     </View>
   );
 };
@@ -108,6 +111,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 40,
     backgroundColor: '#d53f27',
+    position: 'relative',
   },
   skipCTA: {
     position: 'absolute',
@@ -123,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 16,
-    marginTop: 30,
+    marginTop: 40,
   },
   bullets: {
     display: 'flex',
@@ -147,12 +151,12 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
   },
-  Next: {
+  next: {
     alignSelf: 'flex-end',
     marginTop: 'auto',
     marginBottom: 10,
   },
-  Actions: {
+  actionCTAs: {
     marginTop: 'auto',
     marginBottom: 10,
     display: 'flex',
@@ -160,36 +164,31 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  ActionButtons: {
-    marginTop: 'auto',
-    marginBottom: 10,
-    display: 'flex',
+  flexCol: {
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
-  Button: {
+  createCTA: {
     borderRadius: 8,
-    backgroundColor: '#fe0000',
+    backgroundColor: '#fff',
     width: '80%',
-    paddingVertical: 10,
+    paddingVertical: 8,
   },
-  ButtonText: {
+  createCTAText: {
     fontSize: 20,
-    color: 'white',
+    color: '#d53f27',
     textAlign: 'center',
-    fontFamily: Fonts.fontExtraBold,
+    fontFamily: Fonts.fontBold,
   },
-  ActionText: {
+  loginText: {
     fontSize: 14,
-    color: '#747476',
+    color: '#fff',
     textAlign: 'center',
-    marginTop: 5,
+    marginTop: 8,
     fontFamily: Fonts.fontRegular,
   },
-  Login: {
+  loginCTA: {
     fontSize: 14,
-    color: '#17171B',
+    color: '#fff',
     fontFamily: Fonts.fontBold,
   },
 });

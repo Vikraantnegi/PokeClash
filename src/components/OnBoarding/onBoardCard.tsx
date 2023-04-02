@@ -3,9 +3,9 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { Fonts } from '../../HelperStyles';
-import pokepik from '../../assets/pokepik.png';
-import charizard from '../../assets/charizard.png';
-import list from '../../assets/list.png';
+import types from '../../assets/types2.png';
+import search from '../../assets/search.png';
+import favorite from '../../assets/favorite.png';
 
 interface GestureConfig {
     velocityThreshold: number,
@@ -29,17 +29,17 @@ const OnBoardCard = ({onLeftSwipe, onRightSwipe, config, position}: OnBoardCardP
         1: {
             heading: 'Explore Pokemons',
             subHeading: 'Discover new and rare species of Pokemons and learn about their strengths, weaknesses and special abilities.',
-            // image: pokepik,
+            image: types,
         },
         2: {
             heading: 'Search Pokemons',
             subHeading: 'Find the Pokemons you want quickly and easily usng our powerful search feature with different filters.',
-            // image: charizard,
+            image: search,
         },
         3: {
             heading: 'Manage Favorites',
             subHeading: 'Keep track of your favorite Pokemons and access them easily whenever you want.',
-            // image: list,
+            image: favorite,
         },
     };
     const { heading, subHeading, image } = screenMap[position];
@@ -71,7 +71,7 @@ const cardStyles = StyleSheet.create({
         flex: 1,
         width: '95%',
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        gap: 48,
     },
     content: {
         display: 'flex',
