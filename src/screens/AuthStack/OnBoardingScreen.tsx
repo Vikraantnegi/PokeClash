@@ -39,7 +39,7 @@ export const OnBoardingScreen = ({
   );
 
   const PrevCTA = () => (
-    <Pressable onPress={() => toPreviousSlide()}>
+    <Pressable style={styles.next} onPress={() => toPreviousSlide()}>
       <Icon name="arrow-left-circle" size={60} color="#fff" />
     </Pressable>
   );
@@ -83,7 +83,7 @@ export const OnBoardingScreen = ({
           <NextCTA />
         </View>
       ) : (
-        <View style={[styles.actionCTAs, styles.flexCol]}>
+        <View style={[styles.actionCTAs, styles.signUpSection]}>
           <Pressable
             style={styles.createCTA}
             onPress={() => navigation.navigate('SignUp')}>
@@ -158,14 +158,14 @@ const styles = StyleSheet.create({
   },
   actionCTAs: {
     marginTop: 'auto',
-    marginBottom: 10,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  flexCol: {
+  signUpSection: {
     flexDirection: 'column',
+    marginBottom: 10,
   },
   createCTA: {
     borderRadius: 8,
