@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Fonts} from '../../HelperStyles';
+import {Fonts, HelperStyles} from '../../HelperStyles';
 import OnBoardCard from '../../components/OnBoarding/onBoardCard';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
@@ -45,10 +45,10 @@ export const OnBoardingScreen = ({
   );
 
   return (
-    <View style={styles.container}>
+    <View style={HelperStyles.container}>
       {screenPosition < 3 && (
         <Text
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('SignUp')}
           style={styles.skipCTA}>
           Skip
         </Text>
@@ -105,14 +105,6 @@ export const OnBoardingScreen = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    display: 'flex',
-    paddingHorizontal: 20,
-    paddingVertical: 40,
-    backgroundColor: '#d53f27',
-    position: 'relative',
-  },
   skipCTA: {
     position: 'absolute',
     top: 20,
