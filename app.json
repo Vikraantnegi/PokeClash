@@ -1,4 +1,5 @@
 {
   "name": "Pokedex",
-  "displayName": "Pokedex"
+  "displayName": "Pokedex",
+  "icon": "./src/assets/logo.png"
 }
