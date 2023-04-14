@@ -35,6 +35,11 @@ export const SignUpScreen = ({
     const {type = '', value = ''} = props;
     setUserData(prevState => ({...prevState, [type]: value}));
   };
+
+  const handleSubmit = () => {
+    console.log(user);
+  };
+
   return (
     <View style={[HelperStyles.container]}>
       <Image source={signUpImage} style={styles.image} />
@@ -116,9 +121,7 @@ export const SignUpScreen = ({
               maxLength={128}
             />
           </View>
-          <Pressable
-            style={styles.submitCTA}
-            onPress={() => navigation.navigate('SignUp')}>
+          <Pressable style={styles.submitCTA} onPress={() => handleSubmit()}>
             <Text style={styles.submitCTAText}>Create Account</Text>
           </Pressable>
         </View>
@@ -130,7 +133,8 @@ export const SignUpScreen = ({
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    paddingVertical: 20,
+    paddingVertical: 12,
+    paddingTop: 20,
   },
   headerText: {
     fontFamily: Fonts.fontBold,
@@ -153,7 +157,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1,
-    gap: 16,
+    gap: 20,
     paddingHorizontal: 12,
     paddingTop: 32,
   },
@@ -164,8 +168,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: Fonts.fontSemi,
-    fontSize: 16,
-    lineHeight: 18,
+    fontSize: 14,
+    lineHeight: 16,
     color: '#FFF',
   },
   input: {
@@ -176,13 +180,13 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     color: '#000',
     fontFamily: Fonts.fontSemi,
-    fontSize: 14,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 18,
     position: 'relative',
   },
   inputIcon: {
     position: 'absolute',
-    top: 32,
+    top: 30,
     left: 8,
     zIndex: 1,
   },
