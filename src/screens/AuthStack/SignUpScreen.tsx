@@ -1,22 +1,26 @@
-import React, {useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
   View,
   Text,
   Image,
-  TextInput,
-  TouchableOpacity,
   Pressable,
+  ScrollView,
+  Platform,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
 import {Fonts, HelperStyles} from '../../HelperStyles';
-import Icon from 'react-native-vector-icons/Feather';
 import signUpImage from '../../assets/signup1.png';
+import CustomFormInput from '../../components/common/CustomFormInput';
 
 interface TextInputChangeEvent {
   type: string;
-  value: string | number;
+  value: string;
 }
 
 export const SignUpScreen = ({
@@ -41,91 +45,80 @@ export const SignUpScreen = ({
   };
 
   return (
-    <View style={[HelperStyles.container]}>
-      <Image source={signUpImage} style={styles.image} />
-      <View style={styles.content}>
-        <Text style={styles.headerText}>Welcome to PokeClash!</Text>
-        <Text style={styles.subText}>
-          Create your account, and begin your journey into the Pokemon universe!
-        </Text>
-        <View style={styles.formContainer}>
-          <View style={styles.formElement}>
-            <Text style={styles.label}>What would you like to be called?</Text>
-            <Icon
-              name="user"
-              size={20}
-              color="#d53f27"
-              style={styles.inputIcon}
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={value =>
-                handleInputChange({type: 'username', value})
-              }
-              value={username}
-              placeholder="Enter a suitable username here..."
-              maxLength={36}
-            />
-          </View>
-          <View style={styles.formElement}>
-            <Text style={styles.label}>Where should we contact you?</Text>
-            <Icon
-              name="mail"
-              size={20}
-              color="#d53f27"
-              style={styles.inputIcon}
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={value => handleInputChange({type: 'email', value})}
-              value={email}
-              placeholder="Enter your email here..."
-              maxLength={128}
-            />
-          </View>
-          <View style={styles.formElement}>
-            <Text style={styles.label}>Secure your account!</Text>
-            <Icon
-              name="lock"
-              size={20}
-              color="#d53f27"
-              style={styles.inputIcon}
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={value =>
-                handleInputChange({type: 'password', value})
-              }
-              value={password}
-              secureTextEntry={true}
-              placeholder="Enter your password here..."
-              maxLength={128}
-            />
-          </View>
-          <View style={styles.formElement}>
-            <Text style={styles.label}>Confirm your password!</Text>
-            <Icon
-              name="lock"
-              size={20}
-              color="#d53f27"
-              style={styles.inputIcon}
-            />
-            <TextInput
-              style={styles.input}
-              onChangeText={value =>
-                handleInputChange({type: 'confirmPassword', value})
-              }
-              value={confirmPassword}
-              secureTextEntry={true}
-              placeholder="Enter your password again..."
-              maxLength={128}
-            />
-          </View>
-          <Pressable style={styles.submitCTA} onPress={() => handleSubmit()}>
-            <Text style={styles.submitCTAText}>Create Account</Text>
-          </Pressable>
-        </View>
-      </View>
+    <View style={[HelperStyles.container, {paddingVertical: 10}]}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{flex: 1}}>
+        <TouchableWithoutFeedback style={{flex: 1}} onPress={Keyboard.dismiss}>
+          <ScrollView
+            contentContainerStyle={{
+              flex: 1,
+              paddingBottom: 20,
+            }}
+            showsVerticalScrollIndicator={false}>
+            <Image source={signUpImage} style={styles.image} />
+            <View style={styles.content}>
+              <Text style={styles.headerText}>Welcome to PokeClash!</Text>
+              <Text style={styles.subText}>
+                Create your account, and begin your journey into the Pokemon
+                universe!
+              </Text>
+              <View style={styles.formContainer}>
+                <CustomFormInput
+                  name="username"
+                  value={username}
+                  iconName="user"
+                  label="What would you like to be called?"
+                  placeholder="Enter a suitable username here..."
+                  maxLength={36}
+                  onChange={handleInputChange}
+                />
+                <CustomFormInput
+                  name="email"
+                  value={email}
+                  iconName="mail"
+                  label="Where should we contact you?"
+                  placeholder="Enter your email here..."
+                  onChange={handleInputChange}
+                />
+                <CustomFormInput
+                  name="password"
+                  value={password}
+                  iconName="lock"
+                  label="Secure your account!"
+                  placeholder="Enter your password here..."
+                  secureTextEntry={true}
+                  onChange={handleInputChange}
+                />
+                <CustomFormInput
+                  name="confirmPassword"
+                  value={confirmPassword}
+                  iconName="lock"
+                  label="Confirm your password!"
+                  placeholder="Enter your password again..."
+                  secureTextEntry={true}
+                  onChange={handleInputChange}
+                />
+              </View>
+              <View style={styles.actionCenter}>
+                <Pressable
+                  style={styles.submitCTA}
+                  onPress={() => handleSubmit()}>
+                  <Text style={styles.submitCTAText}>Create Account</Text>
+                </Pressable>
+
+                <Pressable
+                  style={styles.loginCTA}
+                  onPress={() => navigation.navigate('Login')}>
+                  <Text style={styles.loginCTAText}>
+                    Already have an account
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -133,7 +126,6 @@ export const SignUpScreen = ({
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    paddingVertical: 12,
     paddingTop: 20,
   },
   headerText: {
@@ -146,7 +138,7 @@ const styles = StyleSheet.create({
   subText: {
     fontFamily: Fonts.fontRegular,
     fontSize: 16,
-    lineHeight: 18,
+    lineHeight: 20,
     color: '#FFF',
     textAlign: 'center',
     marginTop: 8,
@@ -156,51 +148,43 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   formContainer: {
-    flex: 1,
+    flex: 3,
     gap: 20,
     paddingHorizontal: 12,
     paddingTop: 32,
   },
-  formElement: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 4,
-  },
-  label: {
-    fontFamily: Fonts.fontSemi,
-    fontSize: 14,
-    lineHeight: 16,
-    color: '#FFF',
-  },
-  input: {
-    backgroundColor: 'white',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    paddingLeft: 36,
-    borderRadius: 6,
-    color: '#000',
-    fontFamily: Fonts.fontSemi,
-    fontSize: 16,
-    lineHeight: 18,
-    position: 'relative',
-  },
-  inputIcon: {
-    position: 'absolute',
-    top: 30,
-    left: 8,
-    zIndex: 1,
+  actionCenter: {
+    flex: 1,
+    gap: 8,
+    width: '80%',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   submitCTA: {
     borderRadius: 8,
     backgroundColor: '#fff',
-    width: '80%',
+    width: '100%',
     paddingVertical: 8,
     alignSelf: 'center',
-    marginTop: 'auto',
   },
   submitCTAText: {
     fontSize: 20,
     color: '#d53f27',
+    textAlign: 'center',
+    fontFamily: Fonts.fontBold,
+  },
+  loginCTA: {
+    borderRadius: 8,
+    width: '100%',
+    backgroundColor: '#d53f27',
+    borderWidth: 1,
+    borderColor: '#fff',
+    paddingVertical: 8,
+    alignSelf: 'center',
+  },
+  loginCTAText: {
+    fontSize: 16,
+    color: '#fff',
     textAlign: 'center',
     fontFamily: Fonts.fontBold,
   },

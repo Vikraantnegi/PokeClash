@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Fonts, HelperStyles} from '../../HelperStyles';
-import OnBoardCard from '../../components/OnBoarding/onBoardCard';
+import OnBoardCard from '../../components/pages/OnBoarding/onBoardCard';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
 import {Pressable} from 'react-native';
@@ -46,13 +46,13 @@ export const OnBoardingScreen = ({
 
   return (
     <View style={HelperStyles.container}>
-      {screenPosition < 3 && (
+      {screenPosition < 3 ? (
         <Text
           onPress={() => navigation.navigate('SignUp')}
           style={styles.skipCTA}>
           Skip
         </Text>
-      )}
+      ) : null}
       <View style={styles.mainContent}>
         <View style={styles.bullets}>
           {[1, 2, 3].map((indice, index) => (
@@ -75,31 +75,33 @@ export const OnBoardingScreen = ({
           />
         </View>
       </View>
-      {screenPosition === 1 ? (
-        <NextCTA />
-      ) : screenPosition === 2 ? (
-        <View style={styles.actionCTAs}>
-          <PrevCTA />
+      <View style={styles.footer}>
+        {screenPosition === 1 ? (
           <NextCTA />
-        </View>
-      ) : (
-        <View style={[styles.actionCTAs, styles.signUpSection]}>
-          <Pressable
-            style={styles.createCTA}
-            onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.createCTAText}>Create Account</Text>
-          </Pressable>
-          <Text style={styles.loginText}>
-            Already have an account?
-            <Text
-              onPress={() => navigation.navigate('Login')}
-              style={styles.loginCTA}>
-              {' '}
-              Login!
+        ) : screenPosition === 2 ? (
+          <View style={styles.actionCTAs}>
+            <PrevCTA />
+            <NextCTA />
+          </View>
+        ) : (
+          <View style={[styles.actionCTAs, styles.signUpSection]}>
+            <Pressable
+              style={styles.createCTA}
+              onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.createCTAText}>Create Account</Text>
+            </Pressable>
+            <Text style={styles.loginText}>
+              Already have an account?
+              <Text
+                onPress={() => navigation.navigate('Login')}
+                style={styles.loginCTA}>
+                {' '}
+                Login!
+              </Text>
             </Text>
-          </Text>
-        </View>
-      )}
+          </View>
+        )}
+      </View>
     </View>
   );
 };
@@ -115,11 +117,15 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     display: 'flex',
-    flex: 1,
+    flex: 4,
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 16,
-    marginTop: 40,
+    paddingTop: 40,
+  },
+  footer: {
+    display: 'flex',
+    flex: 1,
   },
   bullets: {
     display: 'flex',

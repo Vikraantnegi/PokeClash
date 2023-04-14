@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export const Fonts = {
     fontBlack: 'Poppins-Black',

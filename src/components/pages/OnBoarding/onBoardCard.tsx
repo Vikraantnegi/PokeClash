@@ -2,8 +2,8 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import { Fonts } from '../../HelperStyles';
-import { onBoardingScreenMap } from '../../utils/constants';
+import { Fonts } from '../../../HelperStyles';
+import { onBoardingScreenMap } from '../../../utils/constants';
 
 interface GestureConfig {
     velocityThreshold: number,
@@ -29,10 +29,10 @@ const OnBoardCard = ({onLeftSwipe, onRightSwipe, config, position}: OnBoardCardP
         >
             <View style={cardStyles.container}>
                 <View style={cardStyles.content}>
-                    { heading && <Text style={cardStyles.heading}>{heading}</Text> }
-                    { subHeading && <Text style={cardStyles.subHeading}>{subHeading}</Text> }
+                    { heading ? <Text style={cardStyles.heading}>{heading}</Text> : null }
+                    { subHeading ? <Text style={cardStyles.subHeading}>{subHeading}</Text> : null }
                 </View>
-                { image && <Image source={image} style={cardStyles.image} /> }
+                { image ? <Image source={image} style={cardStyles.image} /> : null }
             </View>
         </GestureRecognizer>
     );
@@ -47,7 +47,7 @@ const cardStyles = StyleSheet.create({
         flex: 1,
         width: '95%',
         flexDirection: 'column',
-        gap: 48,
+        justifyContent: 'space-between',
     },
     content: {
         display: 'flex',
