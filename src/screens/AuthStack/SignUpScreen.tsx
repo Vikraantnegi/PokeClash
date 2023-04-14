@@ -6,10 +6,12 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
 import {Fonts, HelperStyles} from '../../HelperStyles';
+import Icon from 'react-native-vector-icons/Feather';
 import signUpImage from '../../assets/signup1.png';
 
 interface TextInputChangeEvent {
@@ -21,20 +23,20 @@ export const SignUpScreen = ({
   navigation,
 }: StackScreenProps<AuthParamList, 'SignUp'>) => {
   const [user, setUserData] = useState({
-    name: '',
     username: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
 
-  const {name, username, email, password} = user;
+  const {confirmPassword, username, email, password} = user;
 
   const handleInputChange = (props: TextInputChangeEvent): void => {
     const {type = '', value = ''} = props;
     setUserData(prevState => ({...prevState, [type]: value}));
   };
   return (
-    <View style={HelperStyles.container}>
+    <View style={[HelperStyles.container]}>
       <Image source={signUpImage} style={styles.image} />
       <View style={styles.content}>
         <Text style={styles.headerText}>Welcome to PokeClash!</Text>
@@ -43,18 +45,13 @@ export const SignUpScreen = ({
         </Text>
         <View style={styles.formContainer}>
           <View style={styles.formElement}>
-            <Text style={styles.label}>What do they call you?</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={value => handleInputChange({type: 'name', value})}
-              value={name}
-              placeholder="Enter your name here..."
-              maxLength={128}
-              autoCapitalize="words"
-            />
-          </View>
-          <View style={styles.formElement}>
             <Text style={styles.label}>What would you like to be called?</Text>
+            <Icon
+              name="user"
+              size={20}
+              color="#d53f27"
+              style={styles.inputIcon}
+            />
             <TextInput
               style={styles.input}
               onChangeText={value =>
@@ -67,6 +64,12 @@ export const SignUpScreen = ({
           </View>
           <View style={styles.formElement}>
             <Text style={styles.label}>Where should we contact you?</Text>
+            <Icon
+              name="mail"
+              size={20}
+              color="#d53f27"
+              style={styles.inputIcon}
+            />
             <TextInput
               style={styles.input}
               onChangeText={value => handleInputChange({type: 'email', value})}
@@ -76,7 +79,13 @@ export const SignUpScreen = ({
             />
           </View>
           <View style={styles.formElement}>
-            <Text style={styles.label}>Secure your account</Text>
+            <Text style={styles.label}>Secure your account!</Text>
+            <Icon
+              name="lock"
+              size={20}
+              color="#d53f27"
+              style={styles.inputIcon}
+            />
             <TextInput
               style={styles.input}
               onChangeText={value =>
@@ -88,6 +97,30 @@ export const SignUpScreen = ({
               maxLength={128}
             />
           </View>
+          <View style={styles.formElement}>
+            <Text style={styles.label}>Confirm your password!</Text>
+            <Icon
+              name="lock"
+              size={20}
+              color="#d53f27"
+              style={styles.inputIcon}
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={value =>
+                handleInputChange({type: 'confirmPassword', value})
+              }
+              value={confirmPassword}
+              secureTextEntry={true}
+              placeholder="Enter your password again..."
+              maxLength={128}
+            />
+          </View>
+          <Pressable
+            style={styles.submitCTA}
+            onPress={() => navigation.navigate('SignUp')}>
+            <Text style={styles.submitCTAText}>Create Account</Text>
+          </Pressable>
         </View>
       </View>
     </View>
@@ -97,7 +130,7 @@ export const SignUpScreen = ({
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: 20,
   },
   headerText: {
     fontFamily: Fonts.fontBold,
@@ -120,9 +153,9 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1,
-    gap: 12,
+    gap: 16,
     paddingHorizontal: 12,
-    paddingTop: 24,
+    paddingTop: 32,
   },
   formElement: {
     display: 'flex',
@@ -139,11 +172,33 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingVertical: 8,
     paddingHorizontal: 12,
+    paddingLeft: 36,
     borderRadius: 6,
     color: '#000',
-    fontFamily: Fonts.fontRegular,
+    fontFamily: Fonts.fontSemi,
     fontSize: 14,
     lineHeight: 16,
+    position: 'relative',
+  },
+  inputIcon: {
+    position: 'absolute',
+    top: 32,
+    left: 8,
+    zIndex: 1,
+  },
+  submitCTA: {
+    borderRadius: 8,
+    backgroundColor: '#fff',
+    width: '80%',
+    paddingVertical: 8,
+    alignSelf: 'center',
+    marginTop: 'auto',
+  },
+  submitCTAText: {
+    fontSize: 20,
+    color: '#d53f27',
+    textAlign: 'center',
+    fontFamily: Fonts.fontBold,
   },
 });
 
