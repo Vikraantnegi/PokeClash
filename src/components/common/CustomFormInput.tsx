@@ -49,9 +49,10 @@ const CustomFormInput = ({
               }
             : {},
         ]}
-        onChangeText={val => onChange({type: name, val})}
+        onChangeText={text => onChange({type: name, value: text})}
         value={value}
         placeholder={placeholder}
+        placeholderTextColor="grey"
         maxLength={maxLength}
         secureTextEntry={secureTextEntry}
       />
@@ -78,8 +79,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     color: '#000',
     fontFamily: Fonts.fontSemi,
-    fontSize: 16,
-    lineHeight: 18,
+    fontSize: 14,
     position: 'relative',
   },
   inputIcon: {

@@ -52,8 +52,7 @@ export const SignUpScreen = ({
         <TouchableWithoutFeedback style={{flex: 1}} onPress={Keyboard.dismiss}>
           <ScrollView
             contentContainerStyle={{
-              flex: 1,
-              paddingBottom: 20,
+              flexGrow: 1,
             }}
             showsVerticalScrollIndicator={false}>
             <Image source={signUpImage} style={styles.image} />
@@ -159,6 +158,7 @@ const styles = StyleSheet.create({
     width: '80%',
     alignSelf: 'center',
     justifyContent: 'center',
+    marginTop: 24,
   },
   submitCTA: {
     borderRadius: 8,
