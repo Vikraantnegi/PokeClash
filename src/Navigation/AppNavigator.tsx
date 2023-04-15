@@ -6,6 +6,8 @@ import SplashScreen from '../screens/SplashScreen';
 import OnBoardingScreen from '../screens/AuthStack/OnBoardingScreen';
 import SignUpScreen from '../screens/AuthStack/SignUpScreen';
 import LoginScreen from '../screens/AuthStack/LoginScreen';
+import ForgotPasswordScreen from '../screens/AuthStack/ForgotPasswordScreen';
+import ResetPasswordScreen from '../screens/AuthStack/ResetPasswordScreen';
 
 export type ScreenParamList = {
     Splash: undefined;
@@ -17,6 +19,8 @@ export type AuthParamList = {
   OnBoarding: undefined;
   SignUp: undefined;
   Login: undefined;
+  ForgotPassword: undefined;
+  ResetPassword: undefined;
   Home: undefined;
 };
 
@@ -49,6 +53,8 @@ const AuthStackScreen = () => {
         <AuthStack.Screen name="OnBoarding" component={OnBoardingScreen} />
         <AuthStack.Screen name="SignUp" component={SignUpScreen} />
         <AuthStack.Screen name="Login" component={LoginScreen} />
+        <AuthStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+        <AuthStack.Screen name="ResetPassword" component={ResetPasswordScreen} />
     </AuthStack.Navigator>
   );
 };

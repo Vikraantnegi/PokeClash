@@ -41,7 +41,7 @@ const CustomFormInput = ({
           name={iconName}
           size={iconSize}
           color={iconColor}
-          style={styles.inputIcon}
+          style={[styles.inputIcon, label ? {} : {top: 12}]}
         />
       ) : null}
       <TextInput

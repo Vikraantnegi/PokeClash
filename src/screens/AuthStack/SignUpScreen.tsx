@@ -15,7 +15,7 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
 import {Fonts, HelperStyles} from '../../HelperStyles';
-import signUpImage from '../../assets/signup1.png';
+import coverImage from '../../assets/signup1.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {validator, ErrorMap} from '../../utils/validator';
 
@@ -79,7 +79,7 @@ export const SignUpScreen = ({
               flexGrow: 1,
             }}
             showsVerticalScrollIndicator={false}>
-            <Image source={signUpImage} style={styles.image} />
+            <Image source={coverImage} style={styles.image} />
             <View style={styles.content}>
               <Text style={styles.headerText}>Welcome to PokeClash!</Text>
               <Text style={styles.subText}>
@@ -139,7 +139,7 @@ export const SignUpScreen = ({
                   style={styles.loginCTA}
                   onPress={() => navigation.navigate('Login')}>
                   <Text style={styles.loginCTAText}>
-                    Already have an account
+                    Already have an account?
                   </Text>
                 </Pressable>
               </View>
@@ -162,6 +162,8 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     color: '#FFF',
     textAlign: 'center',
+    alignSelf: 'center',
+    width: '90%',
   },
   subText: {
     fontFamily: Fonts.fontRegular,
@@ -170,6 +172,8 @@ const styles = StyleSheet.create({
     color: '#FFF',
     textAlign: 'center',
     marginTop: 8,
+    alignSelf: 'center',
+    width: '90%',
   },
   image: {
     width: '100%',
