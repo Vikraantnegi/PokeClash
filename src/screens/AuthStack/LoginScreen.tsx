@@ -15,7 +15,7 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
 import {Fonts, HelperStyles} from '../../HelperStyles';
-import coverImage from '../../assets/signup2.png';
+import coverImage from '../../assets/coverImage2.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {ErrorMap} from '../../utils/validator';
 
@@ -110,7 +110,7 @@ export const LoginScreen = ({
 
                 <Pressable
                   style={styles.loginCTA}
-                  onPress={() => navigation.navigate('ResetPassword')}>
+                  onPress={() => navigation.navigate('SignUp')}>
                   <Text style={styles.loginCTAText}>New here? Sign Up!</Text>
                 </Pressable>
               </View>

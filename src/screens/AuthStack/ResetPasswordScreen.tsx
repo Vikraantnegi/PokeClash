@@ -15,7 +15,7 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
 import {Fonts, HelperStyles} from '../../HelperStyles';
-import coverImage from '../../assets/signup2.png';
+import coverImage from '../../assets/coverImage4.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {ErrorMap, validator} from '../../utils/validator';
 
@@ -99,7 +99,7 @@ export const ResetPasswordScreen = ({
                   name="confirmPassword"
                   value={confirmPassword}
                   iconName="lock"
-                  placeholder="Enter your password again..."
+                  placeholder="Confirm your password..."
                   secureTextEntry={true}
                   onChange={handleInputChange}
                   errorMsg={confirmPasswordErr}

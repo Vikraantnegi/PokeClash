@@ -15,7 +15,7 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
 import {Fonts, HelperStyles} from '../../HelperStyles';
-import coverImage from '../../assets/signup1.png';
+import coverImage from '../../assets/coverImage1.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {validator, ErrorMap} from '../../utils/validator';
 
