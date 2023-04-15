@@ -34,8 +34,6 @@ export const AuthStyles = StyleSheet.create({
         lineHeight: 28,
         color: '#FFF',
         textAlign: 'center',
-        alignSelf: 'center',
-        width: '90%',
     },
     subText: {
         fontFamily: Fonts.fontRegular,
@@ -44,8 +42,6 @@ export const AuthStyles = StyleSheet.create({
         color: '#FFF',
         textAlign: 'center',
         marginTop: 8,
-        alignSelf: 'center',
-        width: '90%',
     },
     image: {
         width: '100%',
