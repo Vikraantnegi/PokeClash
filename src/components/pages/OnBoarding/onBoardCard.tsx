@@ -2,10 +2,8 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import { Fonts } from '../../HelperStyles';
-import types from '../../assets/types2.png';
-import search from '../../assets/search.png';
-import favorite from '../../assets/favorite.png';
+import { Fonts } from '../../../HelperStyles';
+import { onBoardingScreenMap } from '../../../utils/constants';
 
 interface GestureConfig {
     velocityThreshold: number,
@@ -19,30 +17,8 @@ interface OnBoardCardProps {
     position: number,
 }
 
-interface HashMap {
-    [key: number]: any;
-    [key: string]: any;
-}
-
 const OnBoardCard = ({onLeftSwipe, onRightSwipe, config, position}: OnBoardCardProps) => {
-    const screenMap: HashMap = {
-        1: {
-            heading: 'Explore Pokemons',
-            subHeading: 'Discover new and rare species of Pokemons and learn about their strengths, weaknesses and special abilities.',
-            image: types,
-        },
-        2: {
-            heading: 'Search Pokemons',
-            subHeading: 'Find the Pokemons you want quickly and easily usng our powerful search feature with different filters.',
-            image: search,
-        },
-        3: {
-            heading: 'Manage Favorites',
-            subHeading: 'Keep track of your favorite Pokemons and access them easily whenever you want.',
-            image: favorite,
-        },
-    };
-    const { heading, subHeading, image } = screenMap[position];
+    const { heading, subHeading, image } = onBoardingScreenMap[position];
 
     return (
         <GestureRecognizer
@@ -53,10 +29,10 @@ const OnBoardCard = ({onLeftSwipe, onRightSwipe, config, position}: OnBoardCardP
         >
             <View style={cardStyles.container}>
                 <View style={cardStyles.content}>
-                    { heading && <Text style={cardStyles.heading}>{heading}</Text> }
-                    { subHeading && <Text style={cardStyles.subHeading}>{subHeading}</Text> }
+                    { heading ? <Text style={cardStyles.heading}>{heading}</Text> : null }
+                    { subHeading ? <Text style={cardStyles.subHeading}>{subHeading}</Text> : null }
                 </View>
-                { image && <Image source={image} style={cardStyles.image} /> }
+                { image ? <Image source={image} style={cardStyles.image} /> : null }
             </View>
         </GestureRecognizer>
     );
@@ -71,7 +47,7 @@ const cardStyles = StyleSheet.create({
         flex: 1,
         width: '95%',
         flexDirection: 'column',
-        gap: 48,
+        justifyContent: 'space-between',
     },
     content: {
         display: 'flex',

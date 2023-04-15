@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export const Fonts = {
     fontBlack: 'Poppins-Black',
@@ -13,40 +13,99 @@ export const Fonts = {
   };
 
 export const HelperStyles = StyleSheet.create({
-    Container :{
-        width: Dimensions.get('screen').width,
-        height: Dimensions.get('screen').height,
+    container: {
         flex: 1,
         display: 'flex',
-        backgroundColor: 'white',
-    },
-    ScrollView: {
-        paddingHorizontal: 0,
-        paddingVertical: 0,
-    },
-    innerView: {
         paddingHorizontal: 20,
         paddingVertical: 40,
+        backgroundColor: '#d53f27',
         position: 'relative',
     },
-    PokeBall: {
-        position: 'absolute',
-        right: '-31.5%',
-        top: '-6%',
+});
+
+export const AuthStyles = StyleSheet.create({
+    content: {
+        flex: 1,
+        paddingTop: 20,
     },
-    PokeBall1: {
-        transform: [{rotate: '180deg'}],
+    headerText: {
+        fontFamily: Fonts.fontBold,
+        fontSize: 24,
+        lineHeight: 28,
+        color: '#FFF',
+        textAlign: 'center',
+        alignSelf: 'center',
+        width: '90%',
+    },
+    subText: {
+        fontFamily: Fonts.fontRegular,
+        fontSize: 16,
+        lineHeight: 20,
+        color: '#FFF',
+        textAlign: 'center',
+        marginTop: 8,
+        alignSelf: 'center',
+        width: '90%',
+    },
+    image: {
+        width: '100%',
         resizeMode: 'contain',
-        width: 300,
     },
-    PokeBall2: {
-        resizeMode: 'contain',
-        width: 300,
-        marginTop: -60,
+    formContainer: {
+        flex: 3,
+        gap: 20,
+        paddingHorizontal: 12,
+        paddingTop: 32,
     },
-    MenuIcon: {
-        position: 'absolute',
-        right: 20,
-        top: 40,
+    actionCenter: {
+        flex: 1,
+        gap: 8,
+        width: '80%',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginTop: 24,
+    },
+    submitCTA: {
+        borderRadius: 8,
+        backgroundColor: '#fff',
+        width: '100%',
+        paddingVertical: 8,
+        alignSelf: 'center',
+    },
+    submitCTAText: {
+        fontSize: 20,
+        color: '#d53f27',
+        textAlign: 'center',
+        fontFamily: Fonts.fontBold,
+    },
+    secondaryCTA: {
+        borderRadius: 8,
+        width: '100%',
+        backgroundColor: '#d53f27',
+        borderWidth: 1,
+        borderColor: '#fff',
+        paddingVertical: 8,
+        alignSelf: 'center',
+    },
+    secondaryCTAText: {
+        fontSize: 16,
+        color: '#fff',
+        textAlign: 'center',
+        fontFamily: Fonts.fontBold,
+    },
+    errorText: {
+        fontFamily: Fonts.fontRegular,
+        fontSize: 16,
+        lineHeight: 20,
+        color: '#FFF',
+        textAlign: 'center',
+    },
+    forgotText: {
+        fontFamily: Fonts.fontSemi,
+        fontSize: 14,
+        lineHeight: 16,
+        color: '#FFF',
+        marginTop: -8,
+        textAlign: 'right',
     },
 });
