@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   Image,
@@ -14,7 +13,7 @@ import {
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
-import {Fonts, HelperStyles} from '../../HelperStyles';
+import {AuthStyles, HelperStyles} from '../../HelperStyles';
 import coverImage from '../../assets/coverImage3.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {ErrorMap, validator} from '../../utils/validator';
@@ -56,14 +55,16 @@ export const ForgotPasswordScreen = ({
               flexGrow: 1,
             }}
             showsVerticalScrollIndicator={false}>
-            <Image source={coverImage} style={styles.image} />
-            <View style={styles.content}>
-              <Text style={styles.headerText}>Forgot the kingdom's key?</Text>
-              <Text style={styles.subText}>
+            <Image source={coverImage} style={AuthStyles.image} />
+            <View style={AuthStyles.content}>
+              <Text style={AuthStyles.headerText}>
+                Forgot the kingdom's key?
+              </Text>
+              <Text style={AuthStyles.subText}>
                 Don’t worry Chief, we got you! Please enter the email associated
                 with your account.
               </Text>
-              <View style={styles.formContainer}>
+              <View style={AuthStyles.formContainer}>
                 <CustomFormInput
                   name="email"
                   value={email}
@@ -75,9 +76,9 @@ export const ForgotPasswordScreen = ({
                   errorMsg={emailError}
                 />
                 <Pressable
-                  style={styles.submitCTA}
+                  style={AuthStyles.submitCTA}
                   onPress={() => handleSubmit()}>
-                  <Text style={styles.submitCTAText}>Submit</Text>
+                  <Text style={AuthStyles.submitCTAText}>Submit</Text>
                 </Pressable>
               </View>
             </View>
@@ -87,50 +88,5 @@ export const ForgotPasswordScreen = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    paddingTop: 20,
-  },
-  headerText: {
-    fontFamily: Fonts.fontBold,
-    fontSize: 24,
-    lineHeight: 28,
-    color: '#FFF',
-    textAlign: 'center',
-  },
-  subText: {
-    fontFamily: Fonts.fontRegular,
-    fontSize: 16,
-    lineHeight: 20,
-    color: '#FFF',
-    textAlign: 'center',
-    marginTop: 8,
-  },
-  image: {
-    width: '100%',
-    resizeMode: 'contain',
-  },
-  formContainer: {
-    flex: 1,
-    gap: 20,
-    paddingHorizontal: 12,
-    paddingTop: 32,
-  },
-  submitCTA: {
-    borderRadius: 8,
-    backgroundColor: '#fff',
-    width: '100%',
-    paddingVertical: 8,
-    alignSelf: 'center',
-  },
-  submitCTAText: {
-    fontSize: 20,
-    color: '#d53f27',
-    textAlign: 'center',
-    fontFamily: Fonts.fontBold,
-  },
-});
 
 export default ForgotPasswordScreen;

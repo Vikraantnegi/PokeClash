@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   Image,
@@ -14,7 +13,7 @@ import {
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthParamList} from '../../Navigation/AppNavigator';
-import {Fonts, HelperStyles} from '../../HelperStyles';
+import {AuthStyles, HelperStyles} from '../../HelperStyles';
 import coverImage from '../../assets/coverImage2.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {ErrorMap} from '../../utils/validator';
@@ -66,13 +65,14 @@ export const LoginScreen = ({
               flexGrow: 1,
             }}
             showsVerticalScrollIndicator={false}>
-            <Image source={coverImage} style={styles.image} />
-            <View style={styles.content}>
-              <Text style={styles.headerText}>Welcome back to PokeClash!</Text>
-              <Text style={styles.subText}>
-                Go ahead and sign in, your Pokemons are waiting for you!
+            <Image source={coverImage} style={AuthStyles.image} />
+            <View style={AuthStyles.content}>
+              <Text style={AuthStyles.headerText}>Chief, you are back!</Text>
+              <Text style={AuthStyles.subText}>
+                Go ahead and access your kingdom, your Pokemons are waiting for
+                you!
               </Text>
-              <View style={styles.formContainer}>
+              <View style={AuthStyles.formContainer}>
                 <CustomFormInput
                   name="username"
                   value={username}
@@ -93,25 +93,27 @@ export const LoginScreen = ({
                   validationRequired="password"
                 />
                 <Text
-                  style={styles.forgotText}
+                  style={AuthStyles.forgotText}
                   onPress={() => navigation.navigate('ForgotPassword')}>
                   Forgot password?
                 </Text>
                 {errorMsg ? (
-                  <Text style={styles.errorText}>{errorMsg}</Text>
+                  <Text style={AuthStyles.errorText}>{errorMsg}</Text>
                 ) : null}
               </View>
-              <View style={styles.actionCenter}>
+              <View style={AuthStyles.actionCenter}>
                 <Pressable
-                  style={styles.submitCTA}
+                  style={AuthStyles.submitCTA}
                   onPress={() => handleSubmit()}>
-                  <Text style={styles.submitCTAText}>Login</Text>
+                  <Text style={AuthStyles.submitCTAText}>Login</Text>
                 </Pressable>
 
                 <Pressable
-                  style={styles.loginCTA}
+                  style={AuthStyles.secondaryCTA}
                   onPress={() => navigation.navigate('SignUp')}>
-                  <Text style={styles.loginCTAText}>New here? Sign Up!</Text>
+                  <Text style={AuthStyles.secondaryCTAText}>
+                    New here? Sign Up!
+                  </Text>
                 </Pressable>
               </View>
             </View>
@@ -121,92 +123,5 @@ export const LoginScreen = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    paddingTop: 20,
-  },
-  headerText: {
-    fontFamily: Fonts.fontBold,
-    fontSize: 24,
-    lineHeight: 28,
-    color: '#FFF',
-    textAlign: 'center',
-    alignSelf: 'center',
-    width: '90%',
-  },
-  subText: {
-    fontFamily: Fonts.fontRegular,
-    fontSize: 16,
-    lineHeight: 20,
-    color: '#FFF',
-    textAlign: 'center',
-    marginTop: 8,
-    alignSelf: 'center',
-    width: '90%',
-  },
-  image: {
-    width: '100%',
-    resizeMode: 'contain',
-  },
-  formContainer: {
-    flex: 3,
-    gap: 20,
-    paddingHorizontal: 12,
-    paddingTop: 32,
-  },
-  actionCenter: {
-    flex: 1,
-    gap: 8,
-    width: '80%',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    marginTop: 24,
-  },
-  submitCTA: {
-    borderRadius: 8,
-    backgroundColor: '#fff',
-    width: '100%',
-    paddingVertical: 8,
-    alignSelf: 'center',
-  },
-  submitCTAText: {
-    fontSize: 20,
-    color: '#d53f27',
-    textAlign: 'center',
-    fontFamily: Fonts.fontBold,
-  },
-  loginCTA: {
-    borderRadius: 8,
-    width: '100%',
-    backgroundColor: '#d53f27',
-    borderWidth: 1,
-    borderColor: '#fff',
-    paddingVertical: 8,
-    alignSelf: 'center',
-  },
-  loginCTAText: {
-    fontSize: 16,
-    color: '#fff',
-    textAlign: 'center',
-    fontFamily: Fonts.fontBold,
-  },
-  errorText: {
-    fontFamily: Fonts.fontRegular,
-    fontSize: 16,
-    lineHeight: 20,
-    color: '#FFF',
-    textAlign: 'center',
-  },
-  forgotText: {
-    fontFamily: Fonts.fontSemi,
-    fontSize: 14,
-    lineHeight: 16,
-    color: '#FFF',
-    marginTop: -8,
-    textAlign: 'right',
-  },
-});
 
 export default LoginScreen;
