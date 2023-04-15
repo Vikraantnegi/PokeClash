@@ -14,6 +14,8 @@ interface FormInputProps {
   iconColor?: string;
   iconSize?: number;
   secureTextEntry?: boolean;
+  errorMsg?: string;
+  validationRequired?: string;
   onChange: Function;
 }
 
@@ -28,6 +30,8 @@ const CustomFormInput = ({
   onChange,
   maxLength = 128,
   secureTextEntry = false,
+  validationRequired = '',
+  errorMsg,
 }: FormInputProps) => {
   return (
     <View style={styles.formElement}>
@@ -49,13 +53,20 @@ const CustomFormInput = ({
               }
             : {},
         ]}
-        onChangeText={text => onChange({type: name, value: text})}
+        onChangeText={text =>
+          onChange({
+            type: name,
+            value: text,
+            validationType: validationRequired,
+          })
+        }
         value={value}
         placeholder={placeholder}
         placeholderTextColor="grey"
         maxLength={maxLength}
         secureTextEntry={secureTextEntry}
       />
+      {errorMsg ? <Text style={styles.inputErr}>{errorMsg}</Text> : null}
     </View>
   );
 };
@@ -87,6 +98,11 @@ const styles = StyleSheet.create({
     top: 30,
     left: 8,
     zIndex: 1,
+  },
+  inputErr: {
+    fontFamily: Fonts.fontRegular,
+    fontSize: 12,
+    color: '#FFF',
   },
 });
 

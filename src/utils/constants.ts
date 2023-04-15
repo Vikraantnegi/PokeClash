@@ -1,11 +1,7 @@
 import types from '../assets/types2.png';
 import search from '../assets/search.png';
 import favorite from '../assets/favorite.png';
-
-interface HashMap {
-  [key: number]: any;
-  [key: string]: any;
-}
+import {HashMap} from './interfaces';
 
 export const onBoardingScreenMap: HashMap = {
   1: {

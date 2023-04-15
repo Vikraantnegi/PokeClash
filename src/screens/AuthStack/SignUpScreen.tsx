@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -17,10 +17,12 @@ import {AuthParamList} from '../../Navigation/AppNavigator';
 import {Fonts, HelperStyles} from '../../HelperStyles';
 import signUpImage from '../../assets/signup1.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
+import {validator, ErrorMap} from '../../utils/validator';
 
 interface TextInputChangeEvent {
   type: string;
   value: string;
+  validationType?: string;
 }
 
 export const SignUpScreen = ({
@@ -32,12 +34,34 @@ export const SignUpScreen = ({
     password: '',
     confirmPassword: '',
   });
+  const [errors, setErrors] = useState({
+    usernameErr: '',
+    emailErr: '',
+    passwordErr: '',
+    confirmPasswordErr: '',
+  });
 
   const {confirmPassword, username, email, password} = user;
+  const {emailErr, passwordErr, confirmPasswordErr} = errors;
 
   const handleInputChange = (props: TextInputChangeEvent): void => {
-    const {type = '', value = ''} = props;
+    const {type = '', value = '', validationType = ''} = props;
     setUserData(prevState => ({...prevState, [type]: value}));
+    if (validationType && !validator({value, type})) {
+      handleError(type, false);
+    } else if (type === 'confirmPassword' && password !== value) {
+      handleError(type, false);
+    } else {
+      handleError(type, true);
+    }
+  };
+
+  const handleError = (type: string, isValid: boolean): void => {
+    setErrors(prevState => ({
+      ...prevState,
+      [`${type}Err`]: isValid ? '' : ErrorMap[type],
+    }));
+    return;
   };
 
   const handleSubmit = () => {
@@ -79,6 +103,8 @@ export const SignUpScreen = ({
                   label="Where should we contact you?"
                   placeholder="Enter your email here..."
                   onChange={handleInputChange}
+                  validationRequired="email"
+                  errorMsg={emailErr}
                 />
                 <CustomFormInput
                   name="password"
@@ -88,6 +114,8 @@ export const SignUpScreen = ({
                   placeholder="Enter your password here..."
                   secureTextEntry={true}
                   onChange={handleInputChange}
+                  validationRequired="password"
+                  errorMsg={passwordErr}
                 />
                 <CustomFormInput
                   name="confirmPassword"
@@ -97,6 +125,7 @@ export const SignUpScreen = ({
                   placeholder="Enter your password again..."
                   secureTextEntry={true}
                   onChange={handleInputChange}
+                  errorMsg={confirmPasswordErr}
                 />
               </View>
               <View style={styles.actionCenter}>
