@@ -26,7 +26,7 @@ export const HelperStyles = StyleSheet.create({
 export const AuthStyles = StyleSheet.create({
     content: {
         flex: 1,
-        paddingTop: 20,
+        paddingTop: 16,
     },
     headerText: {
         fontFamily: Fonts.fontBold,
