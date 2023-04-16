@@ -5,8 +5,8 @@ export interface HashMap {
 
 export interface FirebaseUserObject {
   username: string;
-  email: string | null | undefined;
+  email: string;
   password: string;
-  userId: string | undefined;
-  isVerified: boolean | undefined;
+  userId: string;
+  isVerified: boolean;
 }

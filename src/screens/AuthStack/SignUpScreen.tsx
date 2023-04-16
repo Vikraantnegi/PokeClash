@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -17,9 +18,9 @@ import {AuthStyles, HelperStyles} from '../../HelperStyles';
 import coverImage from '../../assets/coverImage1.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {validator, ErrorMap} from '../../utils/validator';
-import {FirebaseUserObject} from '../../utils/interfaces';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import {getUserName} from '../../redux/reducers/authReducer';
+import {useSelector} from 'react-redux';
+import {useAuth} from '../../hooks/useAuth';
 
 interface TextInputChangeEvent {
   type: string;
@@ -27,15 +28,11 @@ interface TextInputChangeEvent {
   validationType?: string;
 }
 
-interface UserProps {
-  emailId: string;
-  pwd: string;
-  userName: string;
-}
-
 export const SignUpScreen = ({
   navigation,
 }: StackScreenProps<AuthParamList, 'SignUp'>) => {
+  const loggedInUsername = useSelector(getUserName);
+  const {signUp} = useAuth();
   const [userData, setUserData] = useState({
     username: '',
     email: '',
@@ -72,74 +69,28 @@ export const SignUpScreen = ({
     return;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const userObj = {
-      emailId: email,
-      pwd: password,
-      userName: username,
+      email,
+      password,
+      username,
     };
-    checkForErrors() && createUser(userObj);
+    if (checkForErrors()) {
+      await signUp(userObj);
+    }
   };
+
+  useEffect(() => {
+    if (loggedInUsername) {
+      navigation.navigate('Home');
+    }
+  }, [loggedInUsername]);
 
   const checkForErrors = (): boolean => {
     if (username && email && password && confirmPassword) {
       if (!emailErr && !passwordErr && !confirmPasswordErr) {
         return true;
       }
-    }
-    return false;
-  };
-
-  const createUser = async ({
-    emailId,
-    pwd,
-    userName,
-  }: UserProps): Promise<void> => {
-    try {
-      const userCredential = await auth().createUserWithEmailAndPassword(
-        emailId,
-        pwd,
-      );
-      const user = userCredential?.user;
-      const userObj = {
-        username: userName,
-        email: user?.email,
-        password: pwd,
-        userId: user?.uid,
-        isVerified: user?.emailVerified,
-      };
-      if (await shouldRejectUser(userObj)) {
-        await user?.delete();
-        console.log(`User ${user?.email} has been deleted`);
-      } else {
-        await storeUserAtDB(userObj);
-      }
-    } catch (error: any) {
-      console.log(error?.message);
-    }
-  };
-
-  const storeUserAtDB = async (
-    userObject: FirebaseUserObject,
-  ): Promise<void> => {
-    const usersCollection = firestore().collection('users');
-    await usersCollection
-      .doc(userObject?.userId)
-      .set(userObject)
-      .catch(error => {
-        console.log('Error adding data:', error);
-      });
-  };
-
-  const shouldRejectUser = async (
-    userObject: FirebaseUserObject,
-  ): Promise<boolean> => {
-    const usersCollection = firestore().collection('users');
-    const query = usersCollection.where('username', '==', userObject?.username);
-    const querySnapshot = await query.get();
-    if (querySnapshot?.docs?.length > 0) {
-      console.log('Error adding data: username already exists');
-      return true;
     }
     return false;
   };
