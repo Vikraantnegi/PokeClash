@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "744897921655",
+    "project_id": "pokeclash-cd984",
+    "storage_bucket": "pokeclash-cd984.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744897921655:android:892739d9f3bb1673e9fc72",
+        "android_client_info": {
+          "package_name": "com.pokedex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744897921655-0rekqfp250dbm7le1inqflmnormgmia3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-j38dsmF0X5a1Rk4BO3qRgfKzh5cvrLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744897921655-0rekqfp250dbm7le1inqflmnormgmia3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
