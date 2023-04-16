@@ -33,4 +33,6 @@ export const ErrorMap: HashMap = {
     'Password must consist of one lowercase, uppercase, digit and symbol',
   confirmPassword: 'Password does not match.',
   authErr: 'Invalid login credentials. Please try again!',
+  incompeleteCreds: 'Please fill the above fields to login!',
+  userExists: 'Error adding user: username already exists',
 };

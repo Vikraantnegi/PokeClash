@@ -3,6 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import {FirebaseUserObject} from '../utils/interfaces';
 import {useDispatch} from 'react-redux';
 import {setError, setLoggedInState} from '../redux/reducers/authReducer';
+import {ErrorMap} from '../utils/validator';
 
 interface UserProps {
   email: string;
@@ -12,11 +13,35 @@ interface UserProps {
 
 export const useAuth = () => {
   const dispatch = useDispatch();
+  const usersCollection = firestore().collection('users');
   const signUp = async (userObject: UserProps) => {
     const user = await createUser(userObject);
     if (user) {
       await storeUserAtDB(user);
     }
+  };
+
+  const login = async (
+    username: string,
+    password: string,
+  ): Promise<boolean> => {
+    const email = await fetchEmailfromUsername(username);
+    if (email) {
+      try {
+        const userCredential = await auth().signInWithEmailAndPassword(
+          email,
+          password,
+        );
+        if (userCredential) {
+          dispatch(setLoggedInState({email, username}));
+          return true;
+        }
+      } catch (error: any) {
+        dispatch(setError(error?.message));
+        return false;
+      }
+    }
+    return false;
   };
 
   const createUser = async (
@@ -59,7 +84,7 @@ export const useAuth = () => {
   ): Promise<boolean> => {
     const {username = ''} = userObject;
     if (await checkIfUsernameAlreadyExists(username)) {
-      dispatch(setError('Error adding user: username already exists'));
+      dispatch(setError(ErrorMap.userExists));
       return false;
     }
     return true;
@@ -68,7 +93,6 @@ export const useAuth = () => {
   const checkIfUsernameAlreadyExists = async (
     username: string,
   ): Promise<boolean> => {
-    const usersCollection = firestore()?.collection('users');
     const query = usersCollection?.where('username', '==', username);
     const querySnapshot = await query.get();
     if (querySnapshot?.docs?.length > 0) {
@@ -81,7 +105,6 @@ export const useAuth = () => {
     userObject: FirebaseUserObject,
   ): Promise<void> => {
     const {email, username} = userObject;
-    const usersCollection = firestore().collection('users');
     await usersCollection
       .doc(userObject?.userId)
       .set(userObject)
@@ -93,5 +116,18 @@ export const useAuth = () => {
       });
   };
 
-  return {signUp};
+  const fetchEmailfromUsername = async (username: string): Promise<string> => {
+    const query = usersCollection.where('username', '==', username);
+    const querySnapshot = await query.get();
+    if (!querySnapshot.empty) {
+      const userDoc = querySnapshot.docs[0];
+      const userEmail: string = userDoc.get('email');
+      return userEmail;
+    } else {
+      dispatch(setError('User not found, Please signUp!'));
+      return '';
+    }
+  };
+
+  return {signUp, login};
 };
