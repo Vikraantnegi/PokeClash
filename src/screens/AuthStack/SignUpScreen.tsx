@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -18,20 +17,12 @@ import {AuthStyles, HelperStyles} from '../../HelperStyles';
 import coverImage from '../../assets/coverImage1.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {validator, ErrorMap} from '../../utils/validator';
-import {getUserName} from '../../redux/reducers/authReducer';
-import {useSelector} from 'react-redux';
 import {useAuth} from '../../hooks/useAuth';
-
-interface TextInputChangeEvent {
-  type: string;
-  value: string;
-  validationType?: string;
-}
+import {TextInputChangeEvent} from '../../utils/interfaces';
 
 export const SignUpScreen = ({
   navigation,
 }: StackScreenProps<AuthParamList, 'SignUp'>) => {
-  const loggedInUsername = useSelector(getUserName);
   const {signUp} = useAuth();
   const [userData, setUserData] = useState({
     username: '',
@@ -69,6 +60,8 @@ export const SignUpScreen = ({
     return;
   };
 
+  const navigateToHome = () => navigation.navigate('Home');
+
   const handleSubmit = async () => {
     const userObj = {
       email,
@@ -76,15 +69,9 @@ export const SignUpScreen = ({
       username,
     };
     if (checkForErrors()) {
-      await signUp(userObj);
+      await signUp(userObj, navigateToHome);
     }
   };
-
-  useEffect(() => {
-    if (loggedInUsername) {
-      navigation.navigate('Home');
-    }
-  }, [loggedInUsername]);
 
   const checkForErrors = (): boolean => {
     if (username && email && password && confirmPassword) {

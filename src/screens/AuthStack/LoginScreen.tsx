@@ -18,14 +18,7 @@ import coverImage from '../../assets/coverImage2.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {ErrorMap} from '../../utils/validator';
 import {useAuth} from '../../hooks/useAuth';
-import {useDispatch} from 'react-redux';
-import {setError} from '../../redux/reducers/authReducer';
-
-interface TextInputChangeEvent {
-  type: string;
-  value: string;
-  validationType?: string;
-}
+import {TextInputChangeEvent} from '../../utils/interfaces';
 
 export const LoginScreen = ({
   navigation,
@@ -37,21 +30,17 @@ export const LoginScreen = ({
   const [errorMsg, setLoginErr] = useState('');
   const {username, password} = user;
   const {login} = useAuth();
-  const dispatch = useDispatch();
 
   const handleInputChange = (props: TextInputChangeEvent): void => {
     const {type = '', value = ''} = props;
     setUserData(prevState => ({...prevState, [type]: value}));
   };
 
+  const navigateToHome = () => navigation.navigate('Home');
+
   const handleSubmit = async () => {
     if (username && password) {
-      const loginSuccess: boolean = await login(username, password);
-      if (loginSuccess) {
-        navigation.navigate('Home');
-      } else {
-        dispatch(setError('Error logging in!'));
-      }
+      await login(username, password, navigateToHome);
     } else {
       setLoginErr(ErrorMap.incompeleteCreds);
     }

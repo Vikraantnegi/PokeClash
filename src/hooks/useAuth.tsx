@@ -1,29 +1,24 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {FirebaseUserObject} from '../utils/interfaces';
+import {FirebaseUserObject, UserProps} from '../utils/interfaces';
 import {useDispatch} from 'react-redux';
 import {setError, setLoggedInState} from '../redux/reducers/authReducer';
 import {ErrorMap} from '../utils/validator';
 
-interface UserProps {
-  email: string;
-  password: string;
-  username: string;
-}
-
 export const useAuth = () => {
   const dispatch = useDispatch();
   const usersCollection = firestore().collection('users');
-  const signUp = async (userObject: UserProps) => {
+  const signUp = async (userObject: UserProps, callbackFunc: Function) => {
     const user = await createUser(userObject);
     if (user) {
-      await storeUserAtDB(user);
+      await storeUserAtDB(user, callbackFunc);
     }
   };
 
   const login = async (
     username: string,
     password: string,
+    callbackFunc: Function,
   ): Promise<boolean> => {
     const email = await fetchEmailfromUsername(username);
     if (email) {
@@ -34,6 +29,7 @@ export const useAuth = () => {
         );
         if (userCredential) {
           dispatch(setLoggedInState({email, username}));
+          callbackFunc();
           return true;
         }
       } catch (error: any) {
@@ -42,6 +38,20 @@ export const useAuth = () => {
       }
     }
     return false;
+  };
+
+  const sendPasswordResetEmail = async (
+    email: string,
+    callbackFunc: Function,
+  ) => {
+    try {
+      await auth().sendPasswordResetEmail(email);
+      callbackFunc();
+    } catch (error: any) {
+      dispatch(
+        setError(`Error sending password reset email: ${error?.message}`),
+      );
+    }
   };
 
   const createUser = async (
@@ -103,6 +113,7 @@ export const useAuth = () => {
 
   const storeUserAtDB = async (
     userObject: FirebaseUserObject,
+    callbackFunc: Function,
   ): Promise<void> => {
     const {email, username} = userObject;
     await usersCollection
@@ -110,6 +121,7 @@ export const useAuth = () => {
       .set(userObject)
       .then(() => {
         dispatch(setLoggedInState({email, username}));
+        callbackFunc();
       })
       .catch(error => {
         setError(`Error adding user: ${error?.message}`);
@@ -129,5 +141,5 @@ export const useAuth = () => {
     }
   };
 
-  return {signUp, login};
+  return {signUp, login, sendPasswordResetEmail};
 };

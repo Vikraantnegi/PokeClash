@@ -17,18 +17,15 @@ import {AuthStyles, HelperStyles} from '../../HelperStyles';
 import coverImage from '../../assets/coverImage3.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {ErrorMap, validator} from '../../utils/validator';
-
-interface TextInputChangeEvent {
-  type: string;
-  value: string;
-  validationType?: string;
-}
+import {TextInputChangeEvent} from '../../utils/interfaces';
+import {useAuth} from '../../hooks/useAuth';
 
 export const ForgotPasswordScreen = ({
   navigation,
 }: StackScreenProps<AuthParamList, 'ForgotPassword'>) => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
+  const {sendPasswordResetEmail} = useAuth();
 
   const handleInputChange = (props: TextInputChangeEvent): void => {
     const {type = '', value = '', validationType = ''} = props;
@@ -40,8 +37,10 @@ export const ForgotPasswordScreen = ({
     }
   };
 
+  const navigateToLogin = () => navigation.navigate('Login');
+
   const handleSubmit = () => {
-    console.log(email);
+    sendPasswordResetEmail(email, navigateToLogin);
   };
 
   return (

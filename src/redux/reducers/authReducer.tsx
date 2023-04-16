@@ -1,15 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../store';
 
-interface AuthState {
+type loginUser = {
   username: string;
   email: string;
-  error: string | null;
-}
+};
 
-interface loginUser {
-  username: string;
-  email: string;
+interface AuthState extends loginUser {
+  error: string | null;
 }
 
 const initialState: AuthState = {

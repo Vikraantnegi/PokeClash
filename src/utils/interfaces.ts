@@ -10,3 +10,15 @@ export interface FirebaseUserObject {
   userId: string;
   isVerified: boolean;
 }
+
+export interface UserProps {
+  email: string;
+  password: string;
+  username: string;
+}
+
+export interface TextInputChangeEvent {
+  type: string;
+  value: string;
+  validationType?: string;
+}
