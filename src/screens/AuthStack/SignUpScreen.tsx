@@ -17,16 +17,14 @@ import {AuthStyles, HelperStyles} from '../../HelperStyles';
 import coverImage from '../../assets/coverImage1.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {validator, ErrorMap} from '../../utils/validator';
-interface TextInputChangeEvent {
-  type: string;
-  value: string;
-  validationType?: string;
-}
+import {useAuth} from '../../hooks/useAuth';
+import {TextInputChangeEvent} from '../../utils/interfaces';
 
 export const SignUpScreen = ({
   navigation,
 }: StackScreenProps<AuthParamList, 'SignUp'>) => {
-  const [user, setUserData] = useState({
+  const {signUp} = useAuth();
+  const [userData, setUserData] = useState({
     username: '',
     email: '',
     password: '',
@@ -39,7 +37,7 @@ export const SignUpScreen = ({
     confirmPasswordErr: '',
   });
 
-  const {confirmPassword, username, email, password} = user;
+  const {confirmPassword, username, email, password} = userData;
   const {emailErr, passwordErr, confirmPasswordErr} = errors;
 
   const handleInputChange = (props: TextInputChangeEvent): void => {
@@ -62,8 +60,26 @@ export const SignUpScreen = ({
     return;
   };
 
-  const handleSubmit = () => {
-    console.log(user);
+  const navigateToHome = () => navigation.navigate('Home');
+
+  const handleSubmit = async () => {
+    const userObj = {
+      email,
+      password,
+      username,
+    };
+    if (checkForErrors()) {
+      await signUp(userObj, navigateToHome);
+    }
+  };
+
+  const checkForErrors = (): boolean => {
+    if (username && email && password && confirmPassword) {
+      if (!emailErr && !passwordErr && !confirmPasswordErr) {
+        return true;
+      }
+    }
+    return false;
   };
 
   return (

@@ -17,12 +17,8 @@ import {AuthStyles, HelperStyles} from '../../HelperStyles';
 import coverImage from '../../assets/coverImage2.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {ErrorMap} from '../../utils/validator';
-
-interface TextInputChangeEvent {
-  type: string;
-  value: string;
-  validationType?: string;
-}
+import {useAuth} from '../../hooks/useAuth';
+import {TextInputChangeEvent} from '../../utils/interfaces';
 
 export const LoginScreen = ({
   navigation,
@@ -32,26 +28,22 @@ export const LoginScreen = ({
     password: '',
   });
   const [errorMsg, setLoginErr] = useState('');
-
   const {username, password} = user;
+  const {login} = useAuth();
 
   const handleInputChange = (props: TextInputChangeEvent): void => {
     const {type = '', value = ''} = props;
     setUserData(prevState => ({...prevState, [type]: value}));
   };
 
-  const handleSubmit = () => {
-    if (isAuthSuccess()) {
-      setLoginErr('');
-    } else {
-      setLoginErr(ErrorMap.authErr);
-    }
-    console.log(user);
-  };
+  const navigateToHome = () => navigation.navigate('Home');
 
-  const isAuthSuccess = (): boolean => {
-    console.log(username, password);
-    return false;
+  const handleSubmit = async () => {
+    if (username && password) {
+      await login(username, password, navigateToHome);
+    } else {
+      setLoginErr(ErrorMap.incompeleteCreds);
+    }
   };
 
   return (

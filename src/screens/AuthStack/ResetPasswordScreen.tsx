@@ -17,12 +17,7 @@ import {AuthStyles, HelperStyles} from '../../HelperStyles';
 import coverImage from '../../assets/coverImage4.png';
 import CustomFormInput from '../../components/common/CustomFormInput';
 import {ErrorMap, validator} from '../../utils/validator';
-
-interface TextInputChangeEvent {
-  type: string;
-  value: string;
-  validationType?: string;
-}
+import {TextInputChangeEvent} from '../../utils/interfaces';
 
 export const ResetPasswordScreen = ({
   navigation,

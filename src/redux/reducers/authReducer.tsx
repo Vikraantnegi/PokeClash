@@ -1,15 +1,18 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../store';
 
-interface AuthState {
-  token?: string;
+type loginUser = {
   username: string;
-  error?: string | null;
+  email: string;
+};
+
+interface AuthState extends loginUser {
+  error: string | null;
 }
 
 const initialState: AuthState = {
-  token: '',
   username: '',
+  email: '',
   error: null,
 };
 
@@ -17,23 +20,26 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setToken: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
-    },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
-    setLoggedInState: (state, action: PayloadAction<string>) => {
-      state.username = action.payload;
+    setLoggedInState: (state, action: PayloadAction<loginUser>) => {
+      const {email, username} = action.payload;
+      state.username = username;
+      state.email = email;
     },
     setLoggedOutState: state => {
       state.username = '';
+      state.email = '';
+      state.error = '';
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
+      console.log(state.error);
     },
   },
 });
 
-export const {setToken, setLoggedInState, setError, setLoggedOutState} =
+export const {setLoggedInState, setLoggedOutState, setError} =
   authSlice.actions;
-export const UserName = (state: RootState) => state.auth.username;
+export const getUserName = (state: RootState) => state.auth.username;
+export const getUserEmail = (state: RootState) => state.auth.email;
 
 export default authSlice.reducer;
